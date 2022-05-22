@@ -1,10 +1,11 @@
 const Koa = require('koa');
 const Router = require('koa-router');
-const {productsBySubcategory, productList, productById} = require('./controllers/products');
-const {categoryList} = require('./controllers/categories');
+const {createProduct, productsBySubcategory, productList, productById} = require('./controllers/products');
+const {createCategory, categoryList} = require('./controllers/categories');
 
 const app = new Koa();
 
+app.use(require('koa-bodyparser')());
 app.use(async (ctx, next) => {
   try {
     await next();
@@ -22,7 +23,9 @@ app.use(async (ctx, next) => {
 
 const router = new Router({prefix: '/api'});
 
+router.post('/categories', createCategory);
 router.get('/categories', categoryList);
+router.post('/products', createProduct);
 router.get('/products', productsBySubcategory, productList);
 router.get('/products/:id', productById);
 
