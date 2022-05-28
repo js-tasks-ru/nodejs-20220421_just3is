@@ -9,6 +9,6 @@ module.exports = new GithubStrategy({
   callbackURL: config.providers.github.callback_uri,
   scope: ['user:email'],
   session: false,
-}, function(accessToken, refreshToken, profile, done) {
-  authenticate('github', get(profile, 'emails[0].value'), profile.username, done);
+}, async function(accessToken, refreshToken, profile, done) {
+  await authenticate('github', get(profile, 'emails[0].value'), profile.username, done);
 });
